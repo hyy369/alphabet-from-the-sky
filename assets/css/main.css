@@ -1,0 +1,138 @@
+button.button {
+  color: white;
+  padding: 5px 10px 5px 10px;
+  background-color: #F0131E;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+	font-size: 16px;
+	margin-bottom: 0px;
+}
+
+div.col-md-4 {
+	text-align: center;
+}
+
+div.header {
+	margin-left: 100px;
+}
+
+div.jumbotron {
+	background-image: url('../img/jumbotron.jpg');
+	/* no-repeat center center fixed;  */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+	height: 100vh;
+	width: 100%;
+	padding-top: 20vh;
+	margin-bottom: 0;
+	color: #333333; 
+}
+
+/* body {
+	background-image: url('../img/jumbotron.jpg');
+	/* no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} */
+
+div.result-row {
+	border-top-style: solid;
+	border-top-color: #DDDDDD;
+	border-top-width: 1px;
+}
+
+div.search {
+  display: inline-block;
+}
+
+html{
+	height: 100%;
+}
+
+img {
+	width: 100%;
+	height: 100%;
+}
+
+img.thumbnail {
+	width: 256px;
+	display: inline-block;
+	margin-top: 20px;
+}
+
+p.attribution {
+	/* color: white; */
+  font-size: 15px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+p.label {
+	font-size: 14px;
+	color: #333333;
+}
+
+strong.input-label {
+	font-size: 14px;
+}
+
+img.result {
+	width: 256px;
+}
+
+.center {
+	text-align: center;
+}
+
+.left {
+	text-align: left;
+}
+
+.search_box {
+    background-image: url('../img/searchIcon.png'); /* Add a search icon to input */
+		background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 500px;
+		max-width: 100%;
+    font-size: 16px; /* Increase font-size */
+    color: black;
+    padding: 12px 20px 12px 40px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    border-radius: 15px;
+    margin-bottom: 20px; /* Add some space below the input */
+    margin-top: 0px;
+}
+
+#initial_box {
+	display: none;
+}
+
+#icon-marvel-logo-svg {
+/* display: block; */
+width: 200px;
+height: 78px;
+}
+
+#more_options {
+	display: none;
+}
+
+#page_control {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	display: none;
+}
+
+
+#toggle_options {
+	/* color: white; */
+}

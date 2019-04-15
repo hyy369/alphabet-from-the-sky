@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Marvel Character Search - Help</title>
+  <meta name="Author" content="Yangyang He">
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/help.css">
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <h1>Marvel Character Search - Help</h1>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="container">
+      <div class="row">
+        <p><a href="index.html">Return to search</a></p>
+      </div>
+      <div class="row" id="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+          <li><a href="#search_param">Search Parameters</a></li>
+          <li><a href="#search_result">Search Result</a></li>
+          <li><a href="#errors">Errors</a></li>
+        </ul>
+      </div>
+      <div class="row" id="search_param">
+        <h2>Search Parameters</h2>
+        <p>User can define the following parameters when search. Each parameter has a default and some restrictions.</p>
+
+        <h4>Title</h4>
+        <p>Return only issues in series whose title matches the input.<br>
+        <strong>Format: </strong>Text input box.<br>
+        <strong>Restriction: </strong>Cannot be empty if checked "search by title".</p>
+
+        <h4>Initial letter</h4>
+        <p>Return only issues in series whose title starts with the input.<br>
+        <strong>Format: </strong>Text input box.<br>
+        <strong>Restriction: </strong>Cannot be empty if checked "search by initial letter".</p>
+
+        <h4>Series start year</h4>
+        <p>Return only issues in series whose start year matches the input.<br>
+        <strong>Format: </strong>Selection menu.<br>
+        <strong>Default: </strong>All.<br>
+        <strong>Options: </strong>Every year from 1939 (when Marvel was founded) to today.</p>
+
+        <h4>Issue format</h4>
+        <p>Filter by the issue format. <br>
+        <strong>Format: </strong>Selection menu.<br>
+        <strong>Default: </strong>All.<br>
+        <strong>Options: </strong>Comic, Magazine, Trade paperback, Hardcover, Digest, Graphic novel, Digital comic, Infinite comic.</p>
+
+        <h4>Order by</h4>
+        <p>Order the result set by a field.<br>
+        <strong>Format: </strong>Selection menu.<br>
+        <strong>Default: </strong>Default order returned by the server.<br>
+        <strong>Options: </strong>Title, Issue number.</p></p>
+        <p><a href="#toc">Back to top</a></p>
+      </div>
+      <div class="row" id="search_result">
+        <h2>Search Result</h2>
+        <p>The search will return the first Marvel character (in alphabetical order) that appeared in each comic satisfying the request. Each search will return at most 100 results. Each page shows at most 10 results. Information returned include: </p>
+
+        <h4>Name</h4>
+        <p>The name of the character.</p>
+
+        <h4>Thumbnail</h4>
+        <p>The thumbnail imgae of the character if there is one available.</p>
+
+        <h4>Title</h4>
+        <p>Title of the comic that satisfies the request and the character appears in.</p>
+
+        <h4>Description</h4>
+        <p>Description of the character if there is one available.</p>
+        <p><a href="#toc">Back to top</a></p>
+      </div>
+      <div class="row" id="errors">
+        <h2>Errors</h2>
+        <p>Marvel servers restrict API calls to 3000 calls today. If there is too many visitors, your request may be denied.</p>
+        <p><a href="#toc">Back to top</a></p>
+      </div>
+      <div class="row">
+        <p class="attribution">Created by <a href="https://hyy369.com/">Yangyang He</a> | Data provided by <a href="https://www.marvel.com">Marvel</a>. © 2018 Marvel</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
