@@ -1,6 +1,3 @@
-# !/usr/bin/python
-import os
-import csv
 import sys
 sys.path.append('/usr/local/lib/python3.7/site-packages')
 import cv2
@@ -9,7 +6,6 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from collections import Counter, defaultdict
 import math
-
 
 def mser(img):
     mser = cv2.MSER_create()
@@ -130,9 +126,9 @@ def get_dominant_color2(img):
     dom1 = clt.cluster_centers_[dominant[1]]
     # print(dom1)
 
-    # plt.axis("off")
-    # plt.imshow(bar)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(bar)
+    plt.show()
     return dom1
 
 
@@ -153,7 +149,7 @@ def detect_peripheral_lines(img):
     edges = detect_edge(gray)
     minLineLength = 10
     lines = cv2.HoughLinesP(image=edges, rho=1, theta=np.pi / 90, threshold=10, lines=np.array([]), minLineLength=minLineLength, maxLineGap=2)
-    # print(len(lines))
+    print(len(lines))
     if lines is not None:
         # for i in range(0, len(lines)):
         #     l = lines[i][0]
@@ -173,92 +169,29 @@ def rgb2hsv(rgb):
     return hsv[0][0]
 
 
-def get_p_f(img, peripheral):
-    p_rgb, f_rgb = seperate_p_f_color(img,peripheral)
-    f_hsv = rgb2hsv(f_rgb)
-    p_hsv = rgb2hsv(p_rgb)
-    return p_hsv, f_hsv, p_rgb, f_rgb
+def get_hsv_p_f(img, peripheral):
+    p, f = seperate_p_f_color(img,peripheral)
+    f_hsv = rgb2hsv(f)
+    p_hsv = rgb2hsv(p)
+    return p_hsv, f_hsv
 
 
-if __name__ == '__main__':
-    # Set the directory you want to start from
-    rootDir = '../data'
-    char_count_dict = {}
-    char_sum = 0
-    data_list = []
 
-    for dirName, subdirList, fileList in os.walk(rootDir):
-        print('Found directory: %s' % dirName)
-        for fname in fileList:
-            fname_list = fname.split('_')
-            character = fname_list[0]
-            if character == '.DS':
-                continue
-            if character == 'colon': 
-                character = ':'
-            if character == 'question': 
-                character = '?'
-            if character == 'dot': 
-                character = '.'
-            readability = fname_list[1]
-            finfo = ['../data/'+fname, character, int(readability)]
-            data_list.append(finfo)
-            char_sum += 1
-            if character in char_count_dict:
-                char_count_dict[character] += 1
-            else:
-                char_count_dict[character] = 1
-
-    # Sort the dictionary by ascii order and plot bar graph
-    sorted_keys = sorted(char_count_dict.keys())
-    sorted_values = []
-    for key in sorted_keys:
-        sorted_values.append(char_count_dict[key])
-
-    plt.bar(sorted_keys, sorted_values, color='b')
-    plt.show()
-    # print(data_list)
-
-    train_data = []
-    i = 1
-    for finfo in data_list:
-        print ("Processing file: ", i, " of 1425")
-        i += 1
-        train_info = []
-        fname = finfo[0]
-        img = cv2.imread(fname)
-        img = cv2.resize(img,(200,200))
+if __name__ == "__main__":
+    img = cv2.imread('../data/I_2_09.png')
+    img = cv2.resize(img,(200,200))
+    # plt.imshow(img)
+    # plt.show()
+    # color_hist(img)
+    # mser(img)
+    # blur = gaussian_blur(img)
+    # detect_edge(blur)
+    # hsv_hist(img)
     
-        mask = cv2.imread('mask.png',0)
-        peripheral = cv2.bitwise_and(img,img,mask = mask)
-        p_hsv, f_hsv, p_rgb, f_rgb = get_p_f(img, peripheral)
-        line_count = detect_peripheral_lines(peripheral)
-        finfo.append(p_hsv[0])
-        finfo.append(p_hsv[1])
-        finfo.append(p_hsv[2])
-        finfo.append(f_hsv[0])
-        finfo.append(f_hsv[1])
-        finfo.append(f_hsv[2])
-        finfo.append(p_rgb[0])
-        finfo.append(p_rgb[1])
-        finfo.append(p_rgb[2])
-        finfo.append(f_rgb[0])
-        finfo.append(f_rgb[1])
-        finfo.append(f_rgb[2])
-        finfo.append(line_count)
-        train_info.append(p_hsv[0])
-        train_info.append(line_count)
-        train_data.append(train_info)
-        # print(train_info)s
-    # print(data_list)
-    with open('img_info_2.csv', 'w') as csvFile:
-        for finfo in data_list:
-            writer = csv.writer(csvFile)
-            writer.writerow(finfo)
-    csvFile.close()
+    mask = cv2.imread('mask.png',0)
+    peripheral = cv2.bitwise_and(img,img,mask = mask)
+    # plt.imshow(peripheral)
+    # plt.show()
 
-    with open('train_info.csv', 'w') as csvFile:
-        for tinfo in train_data:
-            writer = csv.writer(csvFile)
-            writer.writerow(tinfo)
-    csvFile.close()
+    
+
