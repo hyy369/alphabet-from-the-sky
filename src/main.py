@@ -12,6 +12,9 @@ import math
 
 
 def mser(img):
+    """ 
+    MSER text detection
+    """
     mser = cv2.MSER_create()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #Converting to GrayScale
     gray_img = img.copy()
@@ -25,6 +28,9 @@ def mser(img):
     return hulls
 
 def detect_edge(gray):
+    """ 
+    Canny edge detection
+    """
     edges = cv2.Canny(gray,100,200)
     # plt.axis("off")
     # plt.imshow(edges)
@@ -32,6 +38,9 @@ def detect_edge(gray):
     return edges
 
 def color_hist(img):
+    """ 
+    Plot BGR color histogram
+    """
     color = ('b','g','r')
     # plt.axis("off")
     # plt.hist(img.ravel(),256,[0,256]); plt.show()
@@ -42,14 +51,10 @@ def color_hist(img):
     # plt.show()
     return hist
 
-def gaussian_blur(img):
-    blur = cv2.GaussianBlur(img,(5,5),0)
-    # plt.axis("off")
-    # plt.imshow(blur)
-    # plt.show()
-    return blur
-
 def hsv_hist(img):
+    """ 
+    Plot HSV histogram
+    """
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist( [hsv], [0, 1], None, [180, 256], [0, 180, 0, 256] )
     # plt.axis("off")
@@ -60,9 +65,7 @@ def hsv_hist(img):
 
 def find_histogram(clt):
     """
-    create a histogram with k clusters
-    :param: clt
-    :return:hist
+    Create a histogram with k clusters 
     """
     numLabels = np.arange(0, len(np.unique(clt.labels_)) + 1)
     (hist, _) = np.histogram(clt.labels_, bins=numLabels)
@@ -74,6 +77,9 @@ def find_histogram(clt):
 
 
 def plot_colors2(hist, centroids):
+    """
+    Plot bar charts for dominant colors
+    """
     bar = np.zeros((50, 300, 3), dtype="uint8")
     startX = 0
 
@@ -89,6 +95,9 @@ def plot_colors2(hist, centroids):
 
 
 def get_dominant_color(img):
+    """
+    Get 2 dominant colors in img using 3 clusters
+    """
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     img = img.reshape((img.shape[0] * img.shape[1],3)) #represent as row*column,channel number
@@ -113,6 +122,9 @@ def get_dominant_color(img):
     return dom1, dom2
 
 def get_dominant_color2(img):
+    """
+    Get most dominant colors in img using 3 clusters
+    """
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     img = img.reshape((img.shape[0] * img.shape[1],3)) #represent as row*column,channel number
@@ -137,6 +149,9 @@ def get_dominant_color2(img):
 
 
 def seperate_p_f_color(img, peripheral):
+    """
+    Seperate peripheral and foreground dominant color
+    """
     dom1, dom2 = get_dominant_color(img)
     dom_peripheral = get_dominant_color2(peripheral)
     dist1 = cv2.norm(dom_peripheral - dom1)
@@ -149,31 +164,32 @@ def seperate_p_f_color(img, peripheral):
 
 
 def detect_peripheral_lines(img):
+    """
+    Detect number of peripheral lines
+    """
     gray = cv2.cvtColor(peripheral, cv2.COLOR_BGR2GRAY)
     edges = detect_edge(gray)
     minLineLength = 10
     lines = cv2.HoughLinesP(image=edges, rho=1, theta=np.pi / 90, threshold=10, lines=np.array([]), minLineLength=minLineLength, maxLineGap=2)
-    # print(len(lines))
     if lines is not None:
-        # for i in range(0, len(lines)):
-        #     l = lines[i][0]
-        #     cv2.line(peripheral, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv2.LINE_AA)
         return len(lines)
     else:
         return 0
-    # plt.imshow(edges)
-    # plt.show()
-    # plt.imshow(peripheral)
-    # plt.show()
 
 
 def rgb2hsv(rgb):
+    """
+    Helper functoin to convert RGB to HSV
+    """
     rgb = np.uint8([[rgb]])
     hsv = cv2.cvtColor(rgb , cv2.COLOR_RGB2HSV)
     return hsv[0][0]
 
 
 def get_p_f(img, peripheral):
+    """
+    Get peripheral and foreground color in both RGB and HSV
+    """
     p_rgb, f_rgb = seperate_p_f_color(img,peripheral)
     f_hsv = rgb2hsv(f_rgb)
     p_hsv = rgb2hsv(p_rgb)
@@ -217,7 +233,6 @@ if __name__ == '__main__':
 
     plt.bar(sorted_keys, sorted_values, color='b')
     plt.show()
-    # print(data_list)
 
     train_data = []
     i = 1
@@ -226,13 +241,19 @@ if __name__ == '__main__':
         i += 1
         train_info = []
         fname = finfo[0]
+        
+        # Read image and resize
         img = cv2.imread(fname)
         img = cv2.resize(img,(200,200))
-    
+
+        # Mask image
         mask = cv2.imread('mask.png',0)
         peripheral = cv2.bitwise_and(img,img,mask = mask)
+
+        # Process the image
         p_hsv, f_hsv, p_rgb, f_rgb = get_p_f(img, peripheral)
         line_count = detect_peripheral_lines(peripheral)
+
         finfo.append(p_hsv[0])
         finfo.append(p_hsv[1])
         finfo.append(p_hsv[2])
@@ -249,8 +270,8 @@ if __name__ == '__main__':
         train_info.append(p_hsv[0])
         train_info.append(line_count)
         train_data.append(train_info)
-        # print(train_info)s
-    # print(data_list)
+
+    # Save results
     with open('img_info_2.csv', 'w') as csvFile:
         for finfo in data_list:
             writer = csv.writer(csvFile)

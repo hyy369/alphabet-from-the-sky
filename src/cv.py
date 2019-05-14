@@ -15,9 +15,9 @@ def mser(img):
     regions, _ = mser.detectRegions(gray)
     hulls = [cv2.convexHull(p.reshape(-1, 1, 2)) for p in regions]
     cv2.polylines(gray_img, hulls, 1, (0, 0, 255), 2)
-    # plt.axis("off")
-    # plt.imshow(gray_img)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(gray_img)
+    plt.show()
     return hulls
 
 def detect_edge(gray):
@@ -29,28 +29,28 @@ def detect_edge(gray):
 
 def color_hist(img):
     color = ('b','g','r')
-    # plt.axis("off")
-    # plt.hist(img.ravel(),256,[0,256]); plt.show()
+    plt.axis("off")
+    plt.hist(img.ravel(),256,[0,256]); plt.show()
     for i,col in enumerate(color):
         hist = cv2.calcHist([img],[i],None,[256],[0,256])
         plt.plot(hist,color = col)
         plt.xlim([0,256])
-    # plt.show()
+    plt.show()
     return hist
 
 def gaussian_blur(img):
     blur = cv2.GaussianBlur(img,(5,5),0)
-    # plt.axis("off")
-    # plt.imshow(blur)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(blur)
+    plt.show()
     return blur
 
 def hsv_hist(img):
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist( [hsv], [0, 1], None, [180, 256], [0, 180, 0, 256] )
     # plt.axis("off")
-    # plt.imshow(hist,interpolation = 'nearest')
-    # plt.show()
+    plt.imshow(hist,interpolation = 'nearest')
+    plt.show()
     return hist
 
 
@@ -103,9 +103,9 @@ def get_dominant_color(img):
     dom2 = clt.cluster_centers_[dominant[-2]]
     # print(dom1,dom2)
 
-    # plt.axis("off")
-    # plt.imshow(bar)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(bar)
+    plt.show()
     return dom1, dom2
 
 def get_dominant_color2(img):
@@ -144,23 +144,24 @@ def seperate_p_f_color(img, peripheral):
     return dom_peripheral, dom_foreground
 
 
-def detect_peripheral_lines(img):
+def detect_peripheral_lines(peripheral):
     gray = cv2.cvtColor(peripheral, cv2.COLOR_BGR2GRAY)
     edges = detect_edge(gray)
     minLineLength = 10
     lines = cv2.HoughLinesP(image=edges, rho=1, theta=np.pi / 90, threshold=10, lines=np.array([]), minLineLength=minLineLength, maxLineGap=2)
     print(len(lines))
     if lines is not None:
-        # for i in range(0, len(lines)):
-        #     l = lines[i][0]
-        #     cv2.line(peripheral, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv2.LINE_AA)
-        return len(lines)
-    else:
-        return 0
+        for i in range(0, len(lines)):
+            l = lines[i][0]
+            cv2.line(peripheral, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv2.LINE_AA)
+        # return len(lines)
+    # else:
+        # return 0
     # plt.imshow(edges)
     # plt.show()
-    # plt.imshow(peripheral)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(peripheral)
+    plt.show()
 
 
 def rgb2hsv(rgb):
@@ -178,18 +179,22 @@ def get_hsv_p_f(img, peripheral):
 
 
 if __name__ == "__main__":
-    img = cv2.imread('../data/I_2_09.png')
+    img = cv2.imread('../data/X_2_07.png')
     img = cv2.resize(img,(200,200))
-    # plt.imshow(img)
-    # plt.show()
+    plt.axis("off")
+    plt.imshow(img)
+    plt.show()
     # color_hist(img)
     # mser(img)
     # blur = gaussian_blur(img)
-    # detect_edge(blur)
+    # detect_edge(img)
     # hsv_hist(img)
+    # get_dominant_color(img)
+    
     
     mask = cv2.imread('mask.png',0)
     peripheral = cv2.bitwise_and(img,img,mask = mask)
+    detect_peripheral_lines(peripheral)
     # plt.imshow(peripheral)
     # plt.show()
 

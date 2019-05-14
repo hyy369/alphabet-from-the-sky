@@ -1,6 +1,7 @@
 import csv
 from sklearn.cluster import KMeans
 
+# Read data
 with open('train_info.csv', 'r') as readFile:
     reader = csv.reader(readFile)
     lines = list(reader)
@@ -10,13 +11,13 @@ with open('train_info.csv', 'r') as readFile:
         line[2] = int(line[2])
 readFile.close()
 
-clt = KMeans(n_clusters=2) #cluster number
+# K-means
+clt = KMeans(n_clusters=2)
 clt.fit(lines)
-print(clt.labels_)
 for i in range (len(lines)):
     lines[i].append(clt.labels_[i])
-print(lines)
 
+# Write data
 with open('after_train.csv', 'w') as csvFile:
     for line in lines:
         writer = csv.writer(csvFile)

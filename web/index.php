@@ -99,13 +99,6 @@
             <br>
             <button class="button" id="query_button" type="submit">Search</button>
         </form>
-        <!-- <p class="label">
-          <strong>Background color: </strong>
-          <input type="color" id="html5colorpicker" onchange="clickColor(0, -1, -1, 5)" value="#ff0000" style="width:50%;">
-          <br>
-          <strong>Foreground color: </strong>
-          <input type="color" id="html5colorpicker" onchange="clickColor(0, -1, -1, 5)" value="#ff0000" style="width:50%;">
-        </p> -->
 
       </div>
 
